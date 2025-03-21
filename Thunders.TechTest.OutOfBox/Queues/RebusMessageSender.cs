@@ -13,5 +13,10 @@ namespace Thunders.TechTest.OutOfBox.Queues
         {
             await bus.Publish(message);
         }
+
+        public virtual async Task Reply(object message)
+        {
+            await bus.Reply(message);
+        }
     }
 }

@@ -1,3 +1,5 @@
+using Aspire.Hosting;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var cache = builder.AddRedis("cache");
@@ -9,7 +11,8 @@ var rabbitMq = builder.AddRabbitMQ("RabbitMq", password: rabbitMqPassword)
     .WithManagementPlugin();
 
 var sqlServerPassword = builder.AddParameter("SqlServerInstancePassword", true);
-var sqlServer = builder.AddSqlServer("SqlServerInstance", sqlServerPassword)
+var sqlServerPort = int.Parse(builder.AddParameter("SqlServerInstancePort", true).Resource.Value);
+var sqlServer = builder.AddSqlServer("SqlServerInstance", password: sqlServerPassword, port: sqlServerPort)
     .WithDataVolume();
 
 var database = sqlServer.AddDatabase("ThundersTechTestDb", "ThundersTechTest");

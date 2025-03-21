@@ -18,7 +18,9 @@ namespace Thunders.TechTest.OutOfBox.Queues
                 .Transport(t =>
                 {
                     t.UseRabbitMq(configuration.GetConnectionString("RabbitMq"), "Thunders.TechTest");
-                }), 
+                })
+                .Logging(configurer => configurer.ColoredConsole())
+                , 
                 onCreated: async bus =>
                 {
                     if (subscriptionBuilder != null)
