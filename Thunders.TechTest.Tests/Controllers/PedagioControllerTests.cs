@@ -15,9 +15,9 @@ namespace Thunders.TechTest.Tests.Controllers
             {
                 var valor = new Random().Next(1, 15);
                 var tipoVeciculo = new Random().Next(0, 2);
-                var request = new PedagioMessage(DateTime.UtcNow, "Praça A", "Cidade", "SC", valor, (TipoVeiculoEnum)tipoVeciculo);
+                var request = new PedagioMessage(DateTime.UtcNow, "Praça A", "Cidade", "SC", valor, (TipoVeiculoEnum)tipoVeciculo, Guid.NewGuid());
                 tasks.Add(fixture.HttpClient.PostAsJsonAsync("/api/Pedagio", request));
-                Thread.Sleep(200);
+                await Task.Delay(200);
             }
 
             var responses = await Task.WhenAll(tasks);

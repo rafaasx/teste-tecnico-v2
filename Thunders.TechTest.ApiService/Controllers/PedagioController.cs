@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Thunders.TechTest.ApiService.Messages;
 using Thunders.TechTest.ApiService.Request;
+using Thunders.TechTest.ApiService.Response;
 using Thunders.TechTest.OutOfBox.Queues;
 
 namespace Thunders.TechTest.ApiService.Controllers
@@ -16,10 +17,10 @@ namespace Thunders.TechTest.ApiService.Controllers
         {
             try
             {
-                var message = new PedagioMessage(request.DataHora, request.Praca, request.Cidade, request.Estado, request.ValorPago, request.TipoVeiculo);
+                var message = new PedagioMessage(request.DataHora, request.Praca, request.Cidade, request.Estado, request.ValorPago, request.TipoVeiculo, Guid.NewGuid());
                 Debug.WriteLine($"{DateTime.Now:HH:mm:ss.fff} - Enviando mensagem: {message.Id}");
                 await messageSender.Publish(message);
-                return Ok();
+                return Ok(new PedagioResponse(message.Id));
             }
             catch (Exception ex)
             {

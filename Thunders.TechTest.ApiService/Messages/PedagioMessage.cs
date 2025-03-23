@@ -12,15 +12,5 @@ namespace Thunders.TechTest.ApiService.Messages
            Guid Id
        )
     {
-        public PedagioMessage(
-            DateTime DataHora,
-            string Praca,
-            string Cidade,
-            string Estado,
-            decimal ValorPago,
-            TipoVeiculoEnum TipoVeiculo)
-            : this(DataHora, Praca, Cidade, Estado, ValorPago, TipoVeiculo, Guid.NewGuid())
-        {
-        }
     }
 }
