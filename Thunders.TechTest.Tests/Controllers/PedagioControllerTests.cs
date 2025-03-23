@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 using Thunders.TechTest.ApiService.Dtos;
 using Thunders.TechTest.ApiService.Enums;
 
@@ -13,35 +8,55 @@ namespace Thunders.TechTest.Tests.Controllers
 {
     public class PedagioControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
-        private readonly WebApplicationFactory<Program> _factory;
-
-        public PedagioControllerTests(WebApplicationFactory<Thunders.TechTest.ApiService.Program> factory)
-        {
-            _factory = factory;
-        }
-
         [Fact]
         public async Task RegistrarCobranca_ShouldHandleHighVolumeRequests()
         {
-            // Arrange
-            var client = _factory.CreateClient();
-            var request = new PedagioMessage(DateTime.UtcNow, "Praça A","Cidade", "Estado", 10, TipoVeiculoEnum.Caminhao);
+            var builder = await DistributedApplicationTestingBuilder
+                .CreateAsync<Projects.Thunders_TechTest_AppHost>();
+
+            builder.Services.ConfigureHttpClientDefaults(clientBuilder =>
+            {
+                clientBuilder.AddStandardResilienceHandler();
+            });
+
+            await using var app = await builder.BuildAsync();
+
+            await app.StartAsync();
+
+            var httpClient = app.CreateHttpClient("apiservice");
+
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+
+            var resourceNotificationService =
+                app.Services.GetRequiredService<ResourceNotificationService>();
+            await resourceNotificationService
+                .WaitForResourceAsync("apiservice", KnownResourceStates.Running)
+                .WaitAsync(TimeSpan.FromSeconds(30));
+
 
             var tasks = new List<Task<HttpResponseMessage>>();
 
-            // Act
-            for (int i = 0; i < 1000; i++) // Simulando 1000 requisições
+            for (int i = 0; i < 1000; i++)
             {
-                tasks.Add(client.PostAsJsonAsync("/api/Pedagio", request));
+                var valor = new Random().Next(1, 15);
+                var tipoVeciculo = new Random().Next(0, 2);
+                var request = new PedagioMessage(DateTime.UtcNow, "Praça A", "Cidade", "SC", valor, (TipoVeiculoEnum)tipoVeciculo);
+                tasks.Add(httpClient.PostAsJsonAsync("/api/Pedagio", request));
+                Thread.Sleep(300);
             }
 
-            var responses = await Task.WhenAll(tasks);
-
-            // Assert
-            foreach (var response in responses)
+            try
             {
-                Assert.True(response.IsSuccessStatusCode, "A requisição falhou.");
+                var responses = await Task.WhenAll(tasks);
+                foreach (var response in responses)
+                    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

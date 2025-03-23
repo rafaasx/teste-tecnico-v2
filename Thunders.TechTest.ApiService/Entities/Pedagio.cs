@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Thunders.TechTest.ApiService.Enums;
 
 namespace Thunders.TechTest.ApiService.Entities

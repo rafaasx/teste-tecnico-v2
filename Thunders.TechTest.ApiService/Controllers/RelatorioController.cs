@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Thunders.TechTest.ApiService.Entities;
 using Thunders.TechTest.ApiService.Factory;
 using Thunders.TechTest.ApiService.Messages;
 using Thunders.TechTest.ApiService.Persistence.Interfaces;

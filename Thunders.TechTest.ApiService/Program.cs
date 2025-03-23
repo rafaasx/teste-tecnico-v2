@@ -1,3 +1,5 @@
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Thunders.TechTest.ApiService;
@@ -12,11 +14,15 @@ using Thunders.TechTest.ApiService.Services.Implementations;
 using Thunders.TechTest.ApiService.Services.Interfaces;
 using Thunders.TechTest.OutOfBox.Database;
 using Thunders.TechTest.OutOfBox.Queues;
+using Thunders.TechTest.ApiService.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<PedagioMessageValidator>();
 
 var features = Features.BindFromConfiguration(builder.Configuration);
 

@@ -23,7 +23,7 @@ namespace Thunders.TechTest.ApiService.Services.Implementations
                 .Select(g => new RelatorioValorTotalPorHoraResponse(g.Key.Cidade, g.Key.Hour, g.Sum(x => x.ValorPago)))
                 .ToListAsync();
 
-            if (resultado.Count == 0)
+            if (!resultado.Any())
                 return;
 
             relatorio.ChangeDados(JsonConvert.SerializeObject(resultado));
@@ -52,7 +52,8 @@ namespace Thunders.TechTest.ApiService.Services.Implementations
                      .ThenBy(q => q.Mes)
                      .ThenByDescending(q => q.TotalFaturado)
                      .ToListAsync();
-
+                if (!query.Any())
+                    return;
                 var resultado = query
                     .GroupBy(q => new { q.Ano, q.Mes })
                     .SelectMany(g => g.OrderByDescending(p => p.TotalFaturado)
@@ -64,9 +65,6 @@ namespace Thunders.TechTest.ApiService.Services.Implementations
                         q.TotalFaturado
                     ))
                     .ToList();
-
-                if (resultado.Count == 0)
-                    return;
 
                 relatorio.ChangeDados(JsonConvert.SerializeObject(resultado));
                 relatorio.Processar();
@@ -86,11 +84,11 @@ namespace Thunders.TechTest.ApiService.Services.Implementations
                 if (relatorio is null)
                     return;
 
-                var resultado = await unitOfWork.PedagioRepository.Query()
+                var resultado = unitOfWork.PedagioRepository.Query()
                 .Where(p => p.Praca == praca)
                 .Select(p => p.TipoVeiculo)
                 .Distinct()
-                .CountAsync();
+                .Count();
 
                 relatorio.ChangeDados(JsonConvert.SerializeObject(new RelatorioQuantidadeDeTiposDeVeiculosPorPracaResponse(resultado)));
                 relatorio.Processar();

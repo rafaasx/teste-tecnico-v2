@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Thunders.TechTest.ApiService.Dtos;
+using Thunders.TechTest.ApiService.Request;
 using Thunders.TechTest.OutOfBox.Queues;
 
 namespace Thunders.TechTest.ApiService.Controllers
@@ -10,11 +11,12 @@ namespace Thunders.TechTest.ApiService.Controllers
     {
 
         [HttpPost]
-        public async Task<IActionResult> RegistrarPassagem([FromBody] PedagioMessage request)
+        public async Task<IActionResult> RegistrarPassagem([FromBody] PedagioRequest request)
         {
             try
             {
-                await messageSender.Publish(request);
+
+                await messageSender.Publish(new PedagioMessage(request.DataHora, request.Praca, request.Cidade, request.Estado, request.ValorPago, request.TipoVeiculo));
                 return Ok();
             }
             catch (Exception ex)

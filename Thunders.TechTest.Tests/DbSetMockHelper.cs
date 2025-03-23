@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Moq;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Thunders.TechTest.Tests
@@ -13,17 +14,12 @@ namespace Thunders.TechTest.Tests
 
             var dbSetMock = new Mock<DbSet<T>>();
 
-            dbSetMock.As<IAsyncEnumerable<T>>()
-                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
-                .Returns(new TestAsyncEnumerator<T>(queryableData.GetEnumerator()));
-
-            dbSetMock.As<IQueryable<T>>()
-                .Setup(m => m.Provider)
-                .Returns(new TestAsyncQueryProvider<T>(queryableData.Provider));
-
+            dbSetMock.As<IAsyncEnumerable<T>>().Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>())).Returns(new TestAsyncEnumerator<T>(queryableData.GetEnumerator()));
+            dbSetMock.As<IQueryable<T>>().Setup(m => m.Provider).Returns(new TestAsyncQueryProvider<T>(queryableData.Provider));
             dbSetMock.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryableData.Expression);
             dbSetMock.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryableData.ElementType);
             dbSetMock.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryableData.GetEnumerator());
+
 
             dbSetMock.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => ((List<T>)data).Add(s));
 

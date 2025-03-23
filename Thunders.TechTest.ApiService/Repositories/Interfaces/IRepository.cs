@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Thunders.TechTest.ApiService.Repositories.Interfaces
+﻿namespace Thunders.TechTest.ApiService.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class
     {

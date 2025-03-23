@@ -1,6 +1,5 @@
 ﻿using Rebus.Handlers;
 using Thunders.TechTest.ApiService.Messages;
-using Thunders.TechTest.ApiService.Persistence.Interfaces;
 using Thunders.TechTest.ApiService.Services.Interfaces;
 
 namespace Thunders.TechTest.ApiService.Jobs
