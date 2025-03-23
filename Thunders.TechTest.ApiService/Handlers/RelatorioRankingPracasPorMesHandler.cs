@@ -2,7 +2,7 @@
 using Thunders.TechTest.ApiService.Messages;
 using Thunders.TechTest.ApiService.Services.Interfaces;
 
-namespace Thunders.TechTest.ApiService.Jobs
+namespace Thunders.TechTest.ApiService.Handlers
 {
     public class RelatorioRankingPracasPorMesHandler(IRelatorioService relatorioService) : IHandleMessages<RelatorioRankingPracasPorMesMessage>
     {

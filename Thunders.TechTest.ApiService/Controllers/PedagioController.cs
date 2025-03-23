@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Thunders.TechTest.ApiService.Dtos;
+using System.Diagnostics;
+using Thunders.TechTest.ApiService.Messages;
 using Thunders.TechTest.ApiService.Request;
 using Thunders.TechTest.OutOfBox.Queues;
 
@@ -15,8 +16,9 @@ namespace Thunders.TechTest.ApiService.Controllers
         {
             try
             {
-
-                await messageSender.Publish(new PedagioMessage(request.DataHora, request.Praca, request.Cidade, request.Estado, request.ValorPago, request.TipoVeiculo));
+                var message = new PedagioMessage(request.DataHora, request.Praca, request.Cidade, request.Estado, request.ValorPago, request.TipoVeiculo);
+                Debug.WriteLine($"{DateTime.Now:HH:mm:ss.fff} - Enviando mensagem: {message.Id}");
+                await messageSender.Publish(message);
                 return Ok();
             }
             catch (Exception ex)

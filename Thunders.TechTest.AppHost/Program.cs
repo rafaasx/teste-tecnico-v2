@@ -1,7 +1,6 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis("cache")
-    .WithRedisInsight();
+var cache = builder.AddRedis("cache");
 
 var rabbitMqPassword = builder.AddParameter("RabbitMqPassword", true);
 

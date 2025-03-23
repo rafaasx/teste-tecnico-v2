@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Thunders.TechTest.ApiService.Dtos;
 using Thunders.TechTest.ApiService.Entities;
+using Thunders.TechTest.ApiService.Messages;
 using Thunders.TechTest.ApiService.Persistence.Interfaces;
 using Thunders.TechTest.ApiService.Response;
 using Thunders.TechTest.ApiService.Services.Interfaces;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Moq;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Thunders.TechTest.Tests

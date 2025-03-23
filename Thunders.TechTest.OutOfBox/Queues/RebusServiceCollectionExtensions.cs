@@ -19,6 +19,11 @@ namespace Thunders.TechTest.OutOfBox.Queues
                 {
                     t.UseRabbitMq(configuration.GetConnectionString("RabbitMq"), "Thunders.TechTest");
                 })
+                 .Options(o =>
+                 {
+                     o.SetNumberOfWorkers(12);
+                     o.SetMaxParallelism(10);
+                 })
                 .Logging(configurer => configurer.ColoredConsole())
                 , 
                 onCreated: async bus =>

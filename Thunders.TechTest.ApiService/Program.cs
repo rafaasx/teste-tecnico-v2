@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Thunders.TechTest.ApiService;
 using Thunders.TechTest.ApiService.Context;
-using Thunders.TechTest.ApiService.Dtos;
 using Thunders.TechTest.ApiService.Messages;
 using Thunders.TechTest.ApiService.Persistence;
 using Thunders.TechTest.ApiService.Persistence.Interfaces;
