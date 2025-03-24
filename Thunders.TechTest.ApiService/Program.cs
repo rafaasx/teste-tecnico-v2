@@ -21,7 +21,7 @@ builder.AddServiceDefaults();
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<PedagioMessageValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<PedagioRequestValidator>();
 
 var features = Features.BindFromConfiguration(builder.Configuration);
 

@@ -4,9 +4,9 @@ using Thunders.TechTest.ApiService.Request;
 
 namespace Thunders.TechTest.ApiService.Validators
 {
-    public class PedagioMessageValidator : AbstractValidator<PedagioRequest>
+    public class PedagioRequestValidator : AbstractValidator<PedagioRequest>
     {
-        public PedagioMessageValidator()
+        public PedagioRequestValidator()
         {
             RuleFor(x => x.DataHora).NotEmpty();
             RuleFor(x => x.Praca).NotEmpty();
