@@ -16,7 +16,7 @@ namespace Thunders.TechTest.ApiService.Factory
 
         public static Relatorio CriarRelatorioQuantidadeDeTiposDeVeiculosPorPraca(string praca)
         {
-            return new Relatorio(Enums.TipoRelatorioEnum.ValorTotalPorHora, JsonConvert.SerializeObject(new { praca }));
+            return new Relatorio(Enums.TipoRelatorioEnum.QuantidadeTiposVeiculoPorPraca, JsonConvert.SerializeObject(new { praca }));
 
         }
     }

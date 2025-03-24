@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Thunders.TechTest.ApiService.Factory;
 using Thunders.TechTest.ApiService.Messages;
 using Thunders.TechTest.ApiService.Persistence.Interfaces;
@@ -75,8 +76,7 @@ namespace Thunders.TechTest.ApiService.Controllers
                 var relatorio = await relatorioService.GetByIdAsync(id);
                 if (relatorio == null)
                     return NotFound();
-
-                return Ok(new RelatorioResponse(relatorio.Id, relatorio.Status, relatorio.Dados));
+                return Ok(RelatorioResponseFactory.CreateRelatorioResponse(relatorio));
             }
             catch (Exception ex)
             {
