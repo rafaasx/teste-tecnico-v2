@@ -20,14 +20,14 @@ namespace Thunders.TechTest.Tests
             App = await builder.BuildAsync();
             await App.StartAsync();
 
-            HttpClient = App.CreateHttpClient("apiservice");
-
             var resourceNotificationService =
                 App.Services.GetRequiredService<ResourceNotificationService>();
 
             await resourceNotificationService
                 .WaitForResourceAsync("apiservice", KnownResourceStates.Running)
                 .WaitAsync(TimeSpan.FromSeconds(30));
+
+            HttpClient = App.CreateHttpClient("apiservice");
         }
 
         public async Task DisposeAsync()
