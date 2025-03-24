@@ -56,3 +56,19 @@ Alguns componentes foram criados e disponibilizados para facilitar a implementa�
 
 - Interface ‘IMessageSender’ do projeto OutOfBox: permite o envio de mensagens para o broker. 
 - Features: para habilitar o uso de Mensageria ou Entity Framework através do padrão de configurações do .NET 
+
+# Como executar
+1. Definir o projeto `Thunders.TechTest.AppHost` como padrão
+2. Executar o projeto
+
+# Pacotes adicionais
+- `FluentValidation.AspNetCore` para validação das DTOs
+- `Swashbuckle.AspNetCore.Annotations` para documentação da API
+- `EntityFrameworkCore.Testing.Moq` para testes unitários
+- `MockQueryable.Core` para testes unitários
+- `MockQueryable.EntityFrameworkCore` para testes unitários
+- `MockQueryable.Moq` para testes unitários
+- `Moq` para testes unitários
+- `Microsoft.AspNetCore.Mvc.Testing` para testes integrados
+
+## Criado testes unitários e teste integrado de performance

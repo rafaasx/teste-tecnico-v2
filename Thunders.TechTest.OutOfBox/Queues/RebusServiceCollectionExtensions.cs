@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Config;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Thunders.TechTest.OutOfBox.Queues
@@ -13,7 +14,6 @@ namespace Thunders.TechTest.OutOfBox.Queues
             SubscriptionBuilder? subscriptionBuilder = null)
         {
             services.AutoRegisterHandlersFromAssembly(Assembly.GetEntryAssembly());
-
             services.AddRebus(c => c
                 .Transport(t =>
                 {
@@ -29,13 +29,8 @@ namespace Thunders.TechTest.OutOfBox.Queues
                 onCreated: async bus =>
                 {
                     if (subscriptionBuilder != null)
-                    {
                         foreach (var type in subscriptionBuilder.TypesToSubscribe)
-                        {
                             await bus.Subscribe(type);
-                        }
-                    }
-
                 });
 
             return services;

@@ -1,5 +1,5 @@
-using FluentValidation.AspNetCore;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Thunders.TechTest.ApiService;
@@ -11,9 +11,9 @@ using Thunders.TechTest.ApiService.Repositories;
 using Thunders.TechTest.ApiService.Repositories.Interfaces;
 using Thunders.TechTest.ApiService.Services.Implementations;
 using Thunders.TechTest.ApiService.Services.Interfaces;
+using Thunders.TechTest.ApiService.Validators;
 using Thunders.TechTest.OutOfBox.Database;
 using Thunders.TechTest.OutOfBox.Queues;
-using Thunders.TechTest.ApiService.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +29,7 @@ var features = Features.BindFromConfiguration(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.EnableAnnotations();
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Thunders.TechTest API",
