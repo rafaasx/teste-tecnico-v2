@@ -57,9 +57,15 @@ Alguns componentes foram criados e disponibilizados para facilitar a implementa�
 - Interface ‘IMessageSender’ do projeto OutOfBox: permite o envio de mensagens para o broker. 
 - Features: para habilitar o uso de Mensageria ou Entity Framework através do padrão de configurações do .NET 
 
+# Requisitos execução
+- Visual Studio 2022
+- .NET 8
+- Docker Desktop
+
 # Como executar
-1. Definir o projeto `Thunders.TechTest.AppHost` como padrão
-2. Executar o projeto
+1. Inicie o Docker
+2. Definir o projeto `Thunders.TechTest.AppHost` como padrão
+3. Executar o projeto
 
 # Pacotes adicionais
 - `FluentValidation.AspNetCore` para validação das DTOs

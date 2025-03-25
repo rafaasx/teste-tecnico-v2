@@ -106,5 +106,10 @@ namespace Thunders.TechTest.ApiService.Services.Implementations
             var relatorio = await unitOfWork.RelatorioRepository.Query().FirstOrDefaultAsync(r => r.Id == id);
             return relatorio;
         }
+
+        public async Task AddAsync(Relatorio relatorio)
+        {
+            await unitOfWork.RelatorioRepository.AddAsync(relatorio);
+        }
     }
 }

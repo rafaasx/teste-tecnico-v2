@@ -31,8 +31,7 @@ namespace Thunders.TechTest.ApiService.Controllers
             {
                 var relatorio = RelatorioFactory.CriarRelatorioRankingPracasPorMes(request.Ano, request.Quantidade);
                 var message = new RelatorioRankingPracasPorMesMessage(relatorio.Id, request.Ano, request.Quantidade);
-
-                await unitOfWork.RelatorioRepository.AddAsync(relatorio);
+                await relatorioService.AddAsync(relatorio);
                 await unitOfWork.SaveChangesAsync();
                 await messageSender.Publish(message);
                 return Ok(new RelatorioResponse(relatorio.Id, relatorio.Status));
@@ -58,7 +57,7 @@ namespace Thunders.TechTest.ApiService.Controllers
             {
                 var relatorio = RelatorioFactory.CriarRelatorioValorTotalPorHora(request.PeriodoInicial, request.PeriodoFinal);
                 var message = new RelatorioValorTotalPorHoraMessage(relatorio.Id, request.PeriodoInicial, request.PeriodoFinal);
-                await unitOfWork.RelatorioRepository.AddAsync(relatorio);
+                await relatorioService.AddAsync(relatorio);
                 await unitOfWork.SaveChangesAsync();
                 await messageSender.Publish(message);
                 return Ok(new RelatorioResponse(relatorio.Id, relatorio.Status));
@@ -84,7 +83,7 @@ namespace Thunders.TechTest.ApiService.Controllers
             {
                 var relatorio = RelatorioFactory.CriarRelatorioQuantidadeDeTiposDeVeiculosPorPraca(request.Praca);
                 var message = new RelatorioQuantidadeDeTiposDeVeiculosPorPracaMessage(relatorio.Id, request.Praca);
-                await unitOfWork.RelatorioRepository.AddAsync(relatorio);
+                await relatorioService.AddAsync(relatorio);
                 await unitOfWork.SaveChangesAsync();
                 await messageSender.Publish(message);
                 return Ok(new RelatorioResponse(relatorio.Id, relatorio.Status));
@@ -97,7 +96,7 @@ namespace Thunders.TechTest.ApiService.Controllers
 
         [HttpGet("{id}")]
         [SwaggerOperation(
-            Summary = "Recupera um relatório pelo identificador",
+            Summary = "Recupera um relatório pelo identificador gerado na requisição de processamento do relatório",
             Description = "Este endpoint retorna o cadastro de um relatório com seus dados e status de processamento",
             OperationId = "ProcessarRelatorioQuantidadeDeTiposDeVeiculosPorPraca",
             Tags = new[] { "Relatórios" }

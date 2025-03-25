@@ -9,20 +9,20 @@ namespace Thunders.TechTest.OutOfBox.Queues
     public static class RebusServiceCollectionExtensions
     {
         public static IServiceCollection AddBus(
-            this IServiceCollection services, 
-            IConfiguration configuration, 
+            this IServiceCollection services,
+            string? connectionString,
             SubscriptionBuilder? subscriptionBuilder = null)
         {
             services.AutoRegisterHandlersFromAssembly(Assembly.GetEntryAssembly());
             services.AddRebus(c => c
                 .Transport(t =>
                 {
-                    t.UseRabbitMq(configuration.GetConnectionString("RabbitMq"), "Thunders.TechTest");
+                    t.UseRabbitMq(connectionString, "Thunders.TechTest");
                 })
                  .Options(o =>
                  {
                      o.SetNumberOfWorkers(12);
-                     o.SetMaxParallelism(10);
+                     o.SetMaxParallelism(12);
                  })
                 .Logging(configurer => configurer.ColoredConsole())
                 , 

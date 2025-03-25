@@ -2,6 +2,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Rebus.Config;
 using Thunders.TechTest.ApiService;
 using Thunders.TechTest.ApiService.Context;
 using Thunders.TechTest.ApiService.Messages;
@@ -43,7 +44,7 @@ builder.Services.AddProblemDetails();
 
 if (features.UseMessageBroker)
 {
-    builder.Services.AddBus(builder.Configuration, new SubscriptionBuilder()
+    builder.Services.AddBus(features.ConnectionStrings.RabbitMq, new SubscriptionBuilder()
         .Add<PedagioMessage>()
         .Add<FalhaProcessamentoRelatorioMessage>()
         .Add<FalhaProcessamentoPedagioMessage>()

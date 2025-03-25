@@ -8,5 +8,6 @@ namespace Thunders.TechTest.ApiService.Services.Interfaces
         Task GerarRelatorioRankingPracasPorMes(Guid id, int Ano, int quantidade);
         Task GerarRelatorioQuantidadeDeTiposDeVeiculosPorPraca(Guid id, string praca);
         Task<Relatorio?> GetByIdAsync(Guid id);
+        Task AddAsync(Relatorio relatorio);
     }
 }
