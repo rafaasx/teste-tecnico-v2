@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Rebus.Config;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace Thunders.TechTest.OutOfBox.Queues
@@ -24,8 +22,8 @@ namespace Thunders.TechTest.OutOfBox.Queues
                      o.SetNumberOfWorkers(12);
                      o.SetMaxParallelism(12);
                  })
-                .Logging(configurer => configurer.ColoredConsole())
-                , 
+                .Logging(configurer => configurer.ColoredConsole(Rebus.Logging.LogLevel.Debug))
+                ,
                 onCreated: async bus =>
                 {
                     if (subscriptionBuilder != null)

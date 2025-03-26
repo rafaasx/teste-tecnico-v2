@@ -1,0 +1,44 @@
+properties:
+  configuration:
+    ingress:
+      external: true    # Permite tráfego externo
+      targetPort: 8080  # Ajuste conforme a porta da sua aplicação
+      allowInsecure: true  # Permite HTTP sem HTTPS (para testes, remova em produção)
+      traffic:
+        - latestRevision: true
+          weight: 100
+
+  services:
+    - name: apiservice
+      ingress:
+        external: true
+        targetPort: 80  # Porta da API
+        allowInsecure: true
+
+    - name: sqlserverinstance
+      ingress:
+        external: true
+        targetPort: 1433  # Expondo a porta do SQL Server externamente
+        allowInsecure: true
+
+    # Serviço RabbitMQ
+    - name: rabbitmq
+      ports:
+        - targetPort: 5672  # Porta do RabbitMQ
+        - targetPort: 15672  # Porta do Management plugin  
+      ingress:
+        external: true
+        targetPort: 5672  # Expondo a porta AMQP do RabbitMQ
+        allowInsecure: true
+        traffic:
+          - latestRevision: true
+            weight: 100
+
+    # Serviço Redis
+    - name: cache
+      ports:
+        - targetPort: 6379  # Porta padrão do Redis
+      ingress:
+        external: true
+        targetPort: 6379  # Expondo a porta do Redis externamente
+        allowInsecure: true

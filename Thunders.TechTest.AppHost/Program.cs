@@ -1,6 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedis("cache");
+var cache = builder.AddRedis("cache")
+    .WithExternalHttpEndpoints();
 
 var rabbitMqPassword = builder.AddParameter("RabbitMqPassword", true);
 
@@ -12,6 +15,7 @@ var rabbitMq = builder.AddRabbitMQ("rabbitmq", password: rabbitMqPassword)
 var sqlServerPassword = builder.AddParameter("SqlServerInstancePassword", true);
 var sqlServerPort = int.Parse(builder.AddParameter("SqlServerInstancePort", true).Resource.Value);
 var sqlServer = builder.AddSqlServer("sqlserverinstance", password: sqlServerPassword, port: sqlServerPort)
+    .WithExternalHttpEndpoints()
     .WithDataVolume("sqlserverinstance-volume");
 
 var database = sqlServer.AddDatabase("ThundersTechTestDb", "ThundersTechTest");

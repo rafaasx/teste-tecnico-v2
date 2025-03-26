@@ -98,7 +98,7 @@ namespace Thunders.TechTest.ApiService.Controllers
         [SwaggerOperation(
             Summary = "Recupera um relatório pelo identificador gerado na requisição de processamento do relatório",
             Description = "Este endpoint retorna o cadastro de um relatório com seus dados e status de processamento",
-            OperationId = "ProcessarRelatorioQuantidadeDeTiposDeVeiculosPorPraca",
+            OperationId = "Get",
             Tags = new[] { "Relatórios" }
         )]
         [SwaggerResponse((int)HttpStatusCode.OK, "Relatório iniciado com sucesso", typeof(RelatorioResponse))]

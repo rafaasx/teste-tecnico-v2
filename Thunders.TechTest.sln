@@ -15,6 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunders.TechTest.OutOfBox"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31186FD5-C02C-4CA8-AD24-6735D994ADDA}"
 	ProjectSection(SolutionItems) = preProject
+		azure-containerapps.yaml = azure-containerapps.yaml
 		azure.yaml = azure.yaml
 		next-steps.md = next-steps.md
 		README.md = README.md
