@@ -37,18 +37,19 @@ namespace Thunders.TechTest.Tests.Services
         public async Task GerarRelatorioValorTotalPorHora_Gerar_Relatorio_Correto_5_Horas_Distintas_Somando_Valor_Total()
         {
             string cidade = "Joinville";
-            var periodoInicial = DateTime.UtcNow;
-            var periodoFinal = DateTime.UtcNow;
+            var ano = 2025;
+            var periodoInicial = new DateTime(ano, 1, 10);
+            var periodoFinal = new DateTime(ano, 1, 10);
             var relatorio = RelatorioFactory.CriarRelatorioValorTotalPorHora(periodoInicial, periodoFinal);
             var pedagios = new List<Pedagio>
             {
-                new Pedagio(DateTime.Now.AddHours(0), "Praça A", cidade, "SC", 10, TipoVeiculoEnum.Carro),
-                new Pedagio(DateTime.Now.AddHours(0), "Praça A", cidade, "SC", 10, TipoVeiculoEnum.Carro),
-                new Pedagio(DateTime.Now.AddHours(-1), "Praça A", cidade, "SC", 20, TipoVeiculoEnum.Carro),
-                new Pedagio(DateTime.Now.AddHours(-2), "Praça A", cidade, "SC", 30, TipoVeiculoEnum.Carro),
-                new Pedagio(DateTime.Now.AddHours(-3), "Praça A", cidade, "SC", 40, TipoVeiculoEnum.Carro),
-                new Pedagio(DateTime.Now.AddHours(-4), "Praça A", cidade, "SC", 50, TipoVeiculoEnum.Carro),
-                new Pedagio(DateTime.Now.AddHours(-4), "Praça A", cidade, "SC", 50, TipoVeiculoEnum.Carro),
+                new(new DateTime(ano, 1, 10, 01, 20 , 30), "Praça A", cidade, "SC", 10, TipoVeiculoEnum.Carro),
+                new(new DateTime(ano, 1, 10, 02, 20 , 30), "Praça A", cidade, "SC", 20, TipoVeiculoEnum.Carro),
+                new(new DateTime(ano, 1, 10, 03, 20 , 30), "Praça A", cidade, "SC", 30, TipoVeiculoEnum.Carro),
+                new(new DateTime(ano, 1, 10, 04, 20 , 30), "Praça A", cidade, "SC", 40, TipoVeiculoEnum.Carro),
+                new(new DateTime(ano, 1, 10, 05, 20 , 30), "Praça A", cidade, "SC", 50, TipoVeiculoEnum.Carro),
+                new(new DateTime(ano, 1, 10, 06, 20 , 30), "Praça A", cidade, "SC", 60, TipoVeiculoEnum.Carro),
+                new(new DateTime(ano, 1, 10, 07, 20 , 30), "Praça A", cidade, "SC", 70, TipoVeiculoEnum.Carro),
             };
             var mockDbSet = DbSetMockHelper.CreateDbSetMock(pedagios);
             _relatorioRepositoryMock.Setup(repo => repo.Query()).Returns(new List<Relatorio>() { relatorio }.AsQueryable());
@@ -60,12 +61,14 @@ namespace Thunders.TechTest.Tests.Services
             var dadosProcessados = JsonConvert.DeserializeObject<List<RelatorioValorTotalPorHoraResponse>>(relatorio.Dados);
             _unitOfWorkMock.Verify(u => u.SaveChangesAsync(), Times.Once);
             Assert.NotNull(dadosProcessados);
-            Assert.Equal(5, dadosProcessados.Count);
-            Assert.Contains(dadosProcessados, r => r.Cidade == cidade && r.ValorTotal == 20);
-            Assert.Contains(dadosProcessados, r => r.Cidade == cidade && r.ValorTotal == 20);
-            Assert.Contains(dadosProcessados, r => r.Cidade == cidade && r.ValorTotal == 30);
-            Assert.Contains(dadosProcessados, r => r.Cidade == cidade && r.ValorTotal == 40);
-            Assert.Contains(dadosProcessados, r => r.Cidade == cidade && r.ValorTotal == 100);
+            Assert.Equal(pedagios.Select(s => s.DataHora.Hour).Distinct().Count(), dadosProcessados.Count);
+            Assert.Contains(dadosProcessados, r => r.Hora == 1 && r.ValorTotal == 10);
+            Assert.Contains(dadosProcessados, r => r.Hora == 2 && r.ValorTotal == 20);
+            Assert.Contains(dadosProcessados, r => r.Hora == 3 && r.ValorTotal == 30);
+            Assert.Contains(dadosProcessados, r => r.Hora == 4 && r.ValorTotal == 40);
+            Assert.Contains(dadosProcessados, r => r.Hora == 5 && r.ValorTotal == 50);
+            Assert.Contains(dadosProcessados, r => r.Hora == 6 && r.ValorTotal == 60);
+            Assert.Contains(dadosProcessados, r => r.Hora == 7 && r.ValorTotal == 70);
         }
 
         [Fact]
@@ -97,34 +100,34 @@ namespace Thunders.TechTest.Tests.Services
             var pedagios = new List<Pedagio>
             {
                     // Janeiro
-                    new Pedagio(new DateTime(ano, 1, 10), "Praça A", cidade, "SC", 15, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 1, 15), "Praça B", cidade, "SC", 25, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 1, 20), "Praça C", cidade, "SC", 35, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 1, 10), "Praça A", cidade, "SC", 15, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 1, 15), "Praça B", cidade, "SC", 25, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 1, 20), "Praça C", cidade, "SC", 35, TipoVeiculoEnum.Carro),
 
                     // Março
-                    new Pedagio(new DateTime(ano, 3, 5), "Praça A", cidade, "SC", 20, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 3, 12), "Praça B", cidade, "SC", 30, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 3, 22), "Praça C", cidade, "SC", 40, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 3, 5), "Praça A", cidade, "SC", 20, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 3, 12), "Praça B", cidade, "SC", 30, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 3, 22), "Praça C", cidade, "SC", 40, TipoVeiculoEnum.Carro),
 
                     // Maio
-                    new Pedagio(new DateTime(ano, 5, 8), "Praça A", cidade, "SC", 25, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 5, 18), "Praça B", cidade, "SC", 35, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 5, 28), "Praça C", cidade, "SC", 45, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 5, 8), "Praça A", cidade, "SC", 25, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 5, 18), "Praça B", cidade, "SC", 35, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 5, 28), "Praça C", cidade, "SC", 45, TipoVeiculoEnum.Carro),
 
                     // Julho
-                    new Pedagio(new DateTime(ano, 7, 3), "Praça A", cidade, "SC", 30, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 7, 14), "Praça B", cidade, "SC", 40, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 7, 25), "Praça C", cidade, "SC", 50, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 7, 3), "Praça A", cidade, "SC", 30, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 7, 14), "Praça B", cidade, "SC", 40, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 7, 25), "Praça C", cidade, "SC", 50, TipoVeiculoEnum.Carro),
 
                     // Setembro
-                    new Pedagio(new DateTime(ano, 9, 7), "Praça A", cidade, "SC", 35, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 9, 17), "Praça B", cidade, "SC", 45, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 9, 27), "Praça C", cidade, "SC", 55, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 9, 7), "Praça A", cidade, "SC", 35, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 9, 17), "Praça B", cidade, "SC", 45, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 9, 27), "Praça C", cidade, "SC", 55, TipoVeiculoEnum.Carro),
 
                     // Novembro
-                    new Pedagio(new DateTime(ano, 11, 2), "Praça A", cidade, "SC", 40, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 11, 16), "Praça B", cidade, "SC", 50, TipoVeiculoEnum.Carro),
-                    new Pedagio(new DateTime(ano, 11, 29), "Praça C", cidade, "SC", 60, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 11, 2), "Praça A", cidade, "SC", 40, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 11, 16), "Praça B", cidade, "SC", 50, TipoVeiculoEnum.Carro),
+                    new(new DateTime(ano, 11, 29), "Praça C", cidade, "SC", 60, TipoVeiculoEnum.Carro),
                 };
 
             var mockDbSet = DbSetMockHelper.CreateDbSetMock(pedagios);
@@ -182,10 +185,10 @@ namespace Thunders.TechTest.Tests.Services
 
             var pedagios = new List<Pedagio>
             {
-                new Pedagio(DateTime.Now, "Praça A", cidade, "SC", 10, TipoVeiculoEnum.Carro),
-                new Pedagio(DateTime.Now, "Praça A", cidade, "SC", 10, TipoVeiculoEnum.Moto),
-                new Pedagio(DateTime.Now, "Praça A", cidade, "SC", 50, TipoVeiculoEnum.Caminhao),
-                new Pedagio(DateTime.Now, "Praça A", cidade, "SC", 50, TipoVeiculoEnum.Carro),
+                new(DateTime.Now, "Praça A", cidade, "SC", 10, TipoVeiculoEnum.Carro),
+                new(DateTime.Now, "Praça A", cidade, "SC", 10, TipoVeiculoEnum.Moto),
+                new(DateTime.Now, "Praça A", cidade, "SC", 50, TipoVeiculoEnum.Caminhao),
+                new(DateTime.Now, "Praça A", cidade, "SC", 50, TipoVeiculoEnum.Carro),
             };
 
             var mockDbSet = DbSetMockHelper.CreateDbSetMock(pedagios.AsQueryable());
