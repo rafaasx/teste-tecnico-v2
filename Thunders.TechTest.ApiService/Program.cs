@@ -75,7 +75,7 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
-if (features.UserSwagger)
+if (features.UseSwagger)
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>

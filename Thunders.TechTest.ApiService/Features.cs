@@ -4,7 +4,7 @@
     {
         public required bool UseMessageBroker { get; set; }
         public required bool UseEntityFramework { get; set; }
-        public required bool UserSwagger { get; set; }
+        public required bool UseSwagger { get; set; }
         public required ConnectionStrings ConnectionStrings { get; set; }
 
         public static Features BindFromConfiguration(IConfiguration section)

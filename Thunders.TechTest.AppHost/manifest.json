@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json.schemastore.org/aspire-8.0.json",
+  "resources": {
+    "cache": {
+      "type": "container.v0",
+      "connectionString": "{cache.bindings.tcp.host}:{cache.bindings.tcp.port}",
+      "image": "docker.io/library/redis:7.4",
+      "bindings": {
+        "tcp": {
+          "scheme": "tcp",
+          "protocol": "tcp",
+          "transport": "tcp",
+          "targetPort": 6379
+        }
+      }
+    },
+    "RabbitMqPassword": {
+      "type": "parameter.v0",
+      "value": "{RabbitMqPassword.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
+    "rabbitmq": {
+      "type": "container.v0",
+      "connectionString": "amqp://guest:{RabbitMqPassword.value}@{rabbitmq.bindings.tcp.host}:{rabbitmq.bindings.tcp.port}",
+      "image": "docker.io/library/rabbitmq:4.0-management",
+      "volumes": [
+        {
+          "name": "rabbitmqdatavolume",
+          "target": "/var/lib/rabbitmq",
+          "readOnly": false
+        }
+      ],
+      "env": {
+        "RABBITMQ_DEFAULT_USER": "guest",
+        "RABBITMQ_DEFAULT_PASS": "{RabbitMqPassword.value}"
+      },
+      "bindings": {
+        "tcp": {
+          "scheme": "tcp",
+          "protocol": "tcp",
+          "transport": "tcp",
+          "targetPort": 5672
+        },
+        "management": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 15672
+        }
+      }
+    },
+    "SqlServerInstancePassword": {
+      "type": "parameter.v0",
+      "value": "{SqlServerInstancePassword.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
+    "SqlServerInstancePort": {
+      "type": "parameter.v0",
+      "value": "{SqlServerInstancePort.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
+    "sqlserverinstance": {
+      "type": "container.v0",
+      "connectionString": "Server={sqlserverinstance.bindings.tcp.host},{sqlserverinstance.bindings.tcp.port};User ID=sa;Password={SqlServerInstancePassword.value};TrustServerCertificate=true",
+      "image": "mcr.microsoft.com/mssql/server:2022-latest",
+      "volumes": [
+        {
+          "name": "sqlserverinstance-volume",
+          "target": "/var/opt/mssql",
+          "readOnly": false
+        }
+      ],
+      "env": {
+        "ACCEPT_EULA": "Y",
+        "MSSQL_SA_PASSWORD": "{SqlServerInstancePassword.value}"
+      },
+      "bindings": {
+        "tcp": {
+          "scheme": "tcp",
+          "protocol": "tcp",
+          "transport": "tcp",
+          "port": 49777,
+          "targetPort": 1433
+        }
+      }
+    },
+    "ThundersTechTestDb": {
+      "type": "value.v0",
+      "connectionString": "{sqlserverinstance.connectionString};Database=ThundersTechTest"
+    },
+    "apiservice": {
+      "type": "project.v0",
+      "path": "../Thunders.TechTest.ApiService/Thunders.TechTest.ApiService.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "HTTP_PORTS": "{apiservice.bindings.http.targetPort}",
+        "ConnectionStrings__cache": "{cache.connectionString}",
+        "ConnectionStrings__rabbitmq": "{rabbitmq.connectionString}",
+        "ConnectionStrings__ThundersTechTestDb": "{ThundersTechTestDb.connectionString}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "external": true
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http",
+          "external": true
+        }
+      }
+    }
+  }
+}

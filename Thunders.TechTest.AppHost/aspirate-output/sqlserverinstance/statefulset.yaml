@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sqlserverinstance
+  labels:
+    app: sqlserverinstance
+spec:
+  serviceName: "sqlserverinstance"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlserverinstance
+  template:
+    metadata:
+      labels:
+        app: sqlserverinstance
+    spec:
+      containers:
+        - name: sqlserverinstance
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 1433
+          envFrom:
+            - configMapRef:
+                name: sqlserverinstance-env
+            - secretRef:
+                name: sqlserverinstance-secrets
+          volumeMounts:
+            - name: sqlserverinstance-volume
+              mountPath: /var/opt/mssql
+  volumeClaimTemplates:
+    - metadata:
+        name: sqlserverinstance-volume
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

@@ -1,0 +1,14 @@
+namespace: testetecnico
+
+resources:
+- cache
+- rabbitmq
+- sqlserverinstance
+- apiservice
+- namespace.yaml
+- dashboard.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+

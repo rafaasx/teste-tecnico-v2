@@ -1,0 +1,44 @@
+{
+  "projectPath": ".",
+  "inputPath": "aspirate-output",
+  "outputPath": "aspirate-output",
+  "namespace": "testetecnico",
+  "containerImageTags": [
+    "latest"
+  ],
+  "imagePullPolicy": "Always",
+  "containerBuilder": "docker",
+  "containerRepositoryPrefix": "testetecnico",
+  "outputFormat": "kustomize",
+  "skipFinalKustomizeGeneration": false,
+  "privateRegistryEmail": "aspir8@aka.ms",
+  "includeDashboard": true,
+  "useCustomNamespace": true,
+  "secrets": {
+    "salt": "\u002Bujp71LZdqd9YHWs",
+    "hash": "1iIfxGLIHfRYdTqfvhrOzTpyfaPUl83vBWVKQBMRlgs=",
+    "secrets": {
+      "RabbitMqPassword": {
+        "value": "\u002Bujp71LZdqd9YHWszlWu9W8rBoB28LFJZ0r/fKOvLDlQ"
+      },
+      "SqlServerInstancePassword": {
+        "value": "\u002Bujp71LZdqd9YHWsTSU3RjrrLgr7grcpOGnlIYmjOStXwMtXj5Y1HL2P8A=="
+      },
+      "SqlServerInstancePort": {
+        "value": "\u002Bujp71LZdqd9YHWsfXc3q8K9NL7hdlxBuWzNUfDjfn0T"
+      },
+      "cache": {},
+      "rabbitmq": {},
+      "sqlserverinstance": {
+        "MSSQL_SA_PASSWORD": "\u002Bujp71LZdqd9YHWsTSU3RjrrLgr7grcpOGnlIYmjOStXwMtXj5Y1HL2P8A=="
+      },
+      "ThundersTechTestDb": {},
+      "apiservice": {
+        "ConnectionStrings__cache": "\u002Bujp71LZdqd9YHWsGln9HrepA62JVG2DJg9kvKe7KiJBiYoLyss=",
+        "ConnectionStrings__rabbitmq": "\u002Bujp71LZdqd9YHWsyQagvZMHZWVJzo6IsQ0svaW3ODoenJNfiJd3XbDYpIWypyUET4ig620XqaNqmQ7z",
+        "ConnectionStrings__ThundersTechTestDb": "\u002Bujp71LZdqd9YHWsPhFTG95GlBKQACPwcL1A/5e/OzxBwYFLjJ53TPjJtJKovRYCT4Sh5zVO4a5omAKUgQkRjbVws57D\u002BbYqRso9Q7FqI1PN9kHb0tF2uq\u002BT/3FmnwcxR7L5U/7VkfBuwkK4LdN1ChqpqbhSNzaNtPMEF2wthQtXL7q4cHmIe2Vj/qI6oshMtpsdew=="
+      }
+    }
+  },
+  "processAllComponents": true
+}

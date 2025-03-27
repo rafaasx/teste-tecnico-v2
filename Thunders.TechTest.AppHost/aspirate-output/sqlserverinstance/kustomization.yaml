@@ -1,0 +1,18 @@
+resources:
+- statefulset.yaml
+- service.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+- name: sqlserverinstance-env
+  literals:
+    - ACCEPT_EULA=Y
+    - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
+    - OTEL_SERVICE_NAME=sqlserverinstance
+
+secretGenerator:
+- name: sqlserverinstance-secrets
+  envs:
+  - .sqlserverinstance.secrets

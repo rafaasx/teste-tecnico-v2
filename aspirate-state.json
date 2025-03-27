@@ -1,0 +1,16 @@
+{
+  "projectPath": ".",
+  "outputPath": "aspirate-output",
+  "containerImageTags": [
+    "latest"
+  ],
+  "containerBuilder": "docker",
+  "containerRepositoryPrefix": "testetecnico",
+  "outputFormat": "kustomize",
+  "privateRegistryEmail": "aspir8@aka.ms",
+  "secrets": {
+    "salt": "J1gMjZHpOHAUAxPL",
+    "hash": "wC4M/7\u002BufU9AgXP2zkfqhPLhYejSrN1jUCTRTMFuL\u002B4=",
+    "secrets": {}
+  }
+}
