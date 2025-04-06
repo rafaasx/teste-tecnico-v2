@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
-    <PackageReference Include="Rebus" Version="8.8.0" />
-    <PackageReference Include="Rebus.RabbitMq" Version="10.0.0" />
-    <PackageReference Include="Rebus.ServiceProvider" Version="10.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
+    <PackageReference Include="Rebus"/>
+    <PackageReference Include="Rebus.RabbitMq"/>
+    <PackageReference Include="Rebus.ServiceProvider"/>
   </ItemGroup>
 
 </Project>
